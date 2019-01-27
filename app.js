@@ -14,9 +14,17 @@ var server = app.listen(process.env.PORT, process.env.IP, function(){
 
 var io = socket(server);    //socket.io will work on this server
 
+//var totalConnections = 0;
 
 io.on("connection", function(socket){     //event handler
+    //totalConnections++;
     console.log("New Connection: " + socket.id);
+    
+    /*socket.on("newPageLoaded", function(){
+        if(totalConnections > 1){
+            
+        }
+    });*/
     
     socket.on("mouse", function(data){
        //console.log(data); 
@@ -26,5 +34,12 @@ io.on("connection", function(socket){     //event handler
     socket.on("colorPick", function(data){
         socket.broadcast.emit("colorPick", data);
     });
+    
+    socket.on("resetCanvas", function(data){
+        //console.log('canvas cleared');
+        socket.broadcast.emit("resetCanvas", data);
+    });
+    
+    
     
 });
