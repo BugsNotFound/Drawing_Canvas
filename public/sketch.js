@@ -7,10 +7,10 @@
 /* global mouseIsPressed */
 
 
-var socket = io.connect("https://hjwebdevbootcamp-srjjain1996.c9users.io/");
+var socket = io.connect("https://hjwebdevbootcamp-srjjain1996.c9users.io/main_board");
 
 
-//socket.emit("newPageLoaded");
+
 
 var database = "";
 var drawing = [];
@@ -49,7 +49,7 @@ function update(picker) {
     g_color.B = Math.round(picker.rgb[2]);
     
     palleteColor = pallete.value;
-    socket.emit("colorPick", palleteColor);
+    /*socket.emit("colorPick", palleteColor);*/
 }
 
 //update();
@@ -110,10 +110,13 @@ function setup() {
         line(data.x, data.y, data.px, data.py);
     });
     
+    /*
+    //not required...
     socket.on("colorPick", function(data){
         pallete.value = data;
         pallete.style.backgroundColor = ("#" + data);
     });
+    */
     
     socket.on("resetCanvas", function(data){
         document.getElementsByTagName("canvas")[0].remove();
@@ -130,6 +133,11 @@ function setup() {
 
 function mouseDragged(){
     //console.log("Sending: " + mouseX + ',' + mouseY);    
+    
+    if(document.querySelectorAll("div[style]").length >= 20){
+        //i.e color picker tab is open
+        return;
+    }
     
     var data = {
         x: mouseX,
